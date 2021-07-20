@@ -5,7 +5,7 @@ import MyGui from '../utils/MyGUI'
 class PaternFloor {
     constructor() {
         this.bind()
-        this.loader = new GLTFLoader()
+        this.modelLoader = new GLTFLoader()
         this.apothem = 0.866
         this.params = {
             inst: {
@@ -16,6 +16,8 @@ class PaternFloor {
             animFrequency: 1
         }
 
+        this.texLoader = new THREE.TextureLoader()
+
         MyGui.add(this.params, 'animSpeed', 0.1, 5)
         MyGui.add(this.params, 'animFrequency', 0.1, 3)
     }
@@ -24,11 +26,12 @@ class PaternFloor {
         this.scene = scene
         this.patern
         this.paternGroup = new THREE.Group()
-        this.loader.load("assets/webGL/hexPatern3D.glb", (glb) => {
+        const matCap = this.texLoader.load('assets/webGL/patternMatCap.png')
+        this.modelLoader.load("assets/webGL/hexPatern3D.glb", (glb) => {
             glb.scene.traverse(child => {
                 if (child instanceof THREE.Mesh) {
                     this.patern = child
-                    this.patern.material = new THREE.MeshNormalMaterial({ wireframe: false })
+                    this.patern.material = new THREE.MeshMatcapMaterial({ matcap: matCap })
                 }
             })
             this.onPaternLoaded()

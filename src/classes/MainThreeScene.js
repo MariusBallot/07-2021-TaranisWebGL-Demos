@@ -27,8 +27,14 @@ class MainThreeScene {
         this.renderer.debug.checkShaderErrors = true
         container.appendChild(this.renderer.domElement)
 
-        //MAIN SCENE INSTANCE
+        //MAIN SCENE INSTANCE*
+        const fogColor = 0xFFFFFF;
+        const fogDensity = 0.1;
         this.scene = new THREE.Scene()
+        this.scene.background = new THREE.Color(fogColor)
+        this.scene.fog = new THREE.FogExp2(fogColor, fogDensity)
+
+
 
         //CAMERA AND ORBIT CONTROLLER
         this.camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000)
@@ -42,6 +48,8 @@ class MainThreeScene {
         MyGUI.hide()
         if (config.myGui)
             MyGUI.show()
+
+        MyGUI.add(this.scene.fog, 'density', 0.001, 0.2).name('Fog Density')
 
 
         PaternFloor.init(this.scene)
