@@ -8,6 +8,7 @@ import MyGUI from '../utils/MyGUI'
 
 import PaternFloor from "./PaternFloor"
 import SinglePillardFloor from "./SinglePillardFloor"
+import CamParallax from "./CamParallax"
 
 
 class MainThreeScene {
@@ -32,9 +33,12 @@ class MainThreeScene {
         this.camera = new THREE.PerspectiveCamera(30, window.innerWidth / window.innerHeight, 0.1, 1000)
         this.camera.position.set(0, 50, 0)
         this.controls = new OrbitControls(this.camera, this.renderer.domElement)
-        this.controls.enabled = config.controls
+        this.controls.enabled = false
         this.controls.maxDistance = 1500
         this.controls.minDistance = 0
+
+        CamParallax.init(this.camera)
+        CamParallax.active = true
 
 
         MyGUI.hide()
@@ -51,7 +55,7 @@ class MainThreeScene {
 
 
         // PaternFloor.init(this.scene)
-        SinglePillardFloor.init(this.scene)
+        SinglePillardFloor.init(this.scene, this.camera)
         //RENDER LOOP AND WINDOW SIZE UPDATER SETUP
         window.addEventListener("resize", this.resizeCanvas)
         RAF.subscribe('threeSceneUpdate', this.update)
@@ -59,6 +63,7 @@ class MainThreeScene {
 
     update() {
         SinglePillardFloor.update()
+        CamParallax.update()
         this.renderer.render(this.scene, this.camera);
     }
 

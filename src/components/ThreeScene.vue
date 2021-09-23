@@ -1,20 +1,22 @@
 <template>
-    <div class="threeScene">
-        <div class="container" ref="container"></div>
-    </div>
+  <div class="threeScene">
+    <div class="container" ref="container"></div>
+  </div>
 </template>
 
 <script>
 import MainThreeScene from "@/classes/MainThreeScene";
+import MouseController from "@/classes/MouseController";
 
 export default {
-    name: "ThreeScene",
-    props: {
-        msg: String,
-    },
-    mounted() {
-        MainThreeScene.init(this.$refs.container);
-    },
+  name: "ThreeScene",
+  props: {
+    msg: String
+  },
+  mounted() {
+    MouseController.start();
+    MainThreeScene.init(this.$refs.container);
+  }
 };
 </script>
 
